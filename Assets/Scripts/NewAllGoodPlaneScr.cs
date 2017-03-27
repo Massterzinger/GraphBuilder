@@ -41,7 +41,6 @@ public class NewAllGoodPlaneScr : MonoBehaviour
     public bool SumOrIncid;
     public bool Oriented;
     public bool TabCl;
-    bool FireFlag;
     public int MaxWeight;
     public bool Withloops, CanCreate;
     public GameObject FirstTargetIter;
@@ -70,7 +69,6 @@ public class NewAllGoodPlaneScr : MonoBehaviour
         Oriented = false;
         IsDragCl = false;
         CanCreate = true;
-        FireFlag = true;
         LineCount = 0;
         TotalLoops = 0;
         MaxWeight = 9;
@@ -89,6 +87,8 @@ public class NewAllGoodPlaneScr : MonoBehaviour
     {
         IsDragCl = true;
         DelClick = false;
+        Way1Click = false;
+        Way2Click = false;
         ModeText.text = DragMode;
     }
     public void CreateModeClick()
@@ -454,7 +454,6 @@ public class NewAllGoodPlaneScr : MonoBehaviour
                     NLD.LineCountersArray[i].GetComponent<LineRenderer>().endColor = Color.green;
                     //NLD.LineCountersArray[i].GetComponent<LineRenderer>().SetColors(Color.green, Color.green);
                     g.GetComponent<NewLineDrawer>().Visited = true;
-                    g.GetComponent<NewLineDrawer>().Flame.SetActive(true);
                     Tex.text += g.name + '\t';
                     Q.Enqueue(g);
 
@@ -532,21 +531,6 @@ public class NewAllGoodPlaneScr : MonoBehaviour
         CanCreate = false;
     }
 
-    public void Fire()
-    {
-        foreach (GameObject Tar in Targets)
-        {
-            Tar.GetComponent<NewLineDrawer>().Flame.SetActive(FireFlag);
-            Tar.GetComponent<NewLineDrawer>().Visited = false;
-        }
-        foreach (GameObject ln in Line)
-        {
-            ln.GetComponent<LineRenderer>().startColor = Color.red;
-            ln.GetComponent<LineRenderer>().endColor = Color.red;
-            //ln.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
-        }
-        FireFlag = !FireFlag;
-    }
     public void SetDefaultColor()
     {
         DelClick = false;
@@ -556,7 +540,6 @@ public class NewAllGoodPlaneScr : MonoBehaviour
         Way2Click = false;
         foreach (GameObject Tar in Targets)
         {
-            Tar.GetComponent<NewLineDrawer>().Flame.SetActive(false);
             Tar.GetComponent<NewLineDrawer>().Visited = false;
             Tar.GetComponent<MeshRenderer>().material = DefaultMaterial;
         }
@@ -586,29 +569,5 @@ public class NewAllGoodPlaneScr : MonoBehaviour
     public void SaveMatrix()
     {
         File.WriteAllText(path, Tex.text);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            TabClicked();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Way1Click = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            Way1Click = false;
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Way2Click = true;
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            Way2Click = false;
-        }
     }
 }

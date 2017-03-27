@@ -9,7 +9,6 @@ public class NewLineDrawer : MonoBehaviour {
 	public string Value = "";
 	GameObject Ma ;
     public bool Visited;
-    public GameObject Flame;
 	NewAllGoodPlaneScr SCR;
 	// Use this for initialization
 	void Start () {
@@ -71,8 +70,9 @@ public class NewLineDrawer : MonoBehaviour {
         }
         if (SCR.Way1Click)
         {
+            SCR.SetDefaultColor();
             //Debug.Log("1Cl" + gameObject.name);
-            if (SCR.WayObj1 != null) SCR.WayObj1.GetComponent<NewLineDrawer>().Flame.SetActive(false);
+            //if (SCR.WayObj1 != null) SCR.WayObj1.GetComponent<NewLineDrawer>().Flame.SetActive(false);
             SCR.WayObj1 = gameObject;
             gameObject.GetComponent<MeshRenderer>().material = SCR.StartMaterial;
             SCR.Way1Click = false;
@@ -82,11 +82,12 @@ public class NewLineDrawer : MonoBehaviour {
         if (SCR.Way2Click)
         {
             //Debug.Log("2Cl" + gameObject.name);
-            if (SCR.WayObj2 != null) SCR.WayObj2.GetComponent<NewLineDrawer>().Flame.SetActive(false);
+            //if (SCR.WayObj2 != null) SCR.WayObj2.GetComponent<NewLineDrawer>().Flame.SetActive(false);
             SCR.WayObj2 = gameObject;
             //Flame.SetActive(true);
             gameObject.GetComponent<MeshRenderer>().material = SCR.EndMaterial;
             SCR.Way2Click = false;
+            SCR.Way1Click = true;
             SCR.SetColPath();
             return;
         }
